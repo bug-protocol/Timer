@@ -5,12 +5,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import LandingPage from './pages/Landing'
 import Application from './pages/Application'
+import Stopwatch from './pages/Stopwatch'
 
 function App() {
     return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/app" element={<Application />} />
+      <Route path="/stopwatch" element ={<Stopwatch/>} />
     </Routes>
   )
   
