@@ -1,20 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useReducer } from "react";
 
-function Application() {
-    const [min,setMin] = useState(0);
-    const [sec,setSec] = useState(0);
-    useEffect(()=>{
-        setInterval(()=>{
-            setSec(sec+1);
-            if (sec>4) {
-                setMin(min+1);
-                setSec(0);
-            }
-        },1000)
-    })
-  return (
-    <div>{min} : {sec}</div>
-  )
+function reducer(state) {
+  let { min, sec, msec } = state;
+
+  msec++;
+  if (msec === 100) {
+    msec = 0;
+    sec++;
+  }
+  if (sec === 6) {
+    sec = 0;
+    min++;
+  }
+
+  return { min, sec, msec };
 }
 
-export default Application
+function Application() {
+  const [state, dispatch] = useReducer(reducer, {
+    min: 0,
+    sec: 0,
+    msec: 0
+  });
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      dispatch(); // triggers reducer
+    }, 10);
+
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div>
+      {state.min} : {state.sec} : {state.msec}
+    </div>
+  );
+}
+
+export default Application;
